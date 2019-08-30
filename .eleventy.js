@@ -1,5 +1,4 @@
 const { DateTime } = require('luxon');
-const fs = require('fs');
 const pluginRss = require('@11ty/eleventy-plugin-rss');
 const pluginSyntaxHighlight = require('@11ty/eleventy-plugin-syntaxhighlight');
 
@@ -21,6 +20,11 @@ module.exports = function(eleventyConfig) {
     return DateTime.fromJSDate(dateObj, { zone: 'utc' }).toFormat('yyyy-LL-dd');
   });
 
+  eleventyConfig.addCollection('posts', (collection) => {
+    return collection.getFilteredByGlob('src/posts/*.md')
+                     .sort((a, b) => b.date - a.date);
+  });
+
   // Get the first `n` elements of a collection.
   eleventyConfig.addFilter('head', (array, n) => {
     if (n < 0) {
@@ -30,8 +34,8 @@ module.exports = function(eleventyConfig) {
     return array.slice(0, n);
   });
 
-  eleventyConfig.addPassthroughCopy('img');
-  eleventyConfig.addPassthroughCopy('css');
+  eleventyConfig.addPassthroughCopy('src/_img');
+  eleventyConfig.addPassthroughCopy('src/_css');
 
   /* Markdown Plugins */
   let markdownIt = require('markdown-it');

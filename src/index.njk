@@ -2,4 +2,6 @@
 layout: layouts/default.njk
 ---
 
-<p>More posts can be found in <a href="{{ '/posts/' | url }}">the archive</a>.</p>
+{% set posts = collections.posts | head(10) %}
+{% set start = collections.posts | length %}
+{% include "posts.njk" %}
