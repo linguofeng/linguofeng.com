@@ -4,7 +4,7 @@
     <a href="{{ post.url | url }}">{% if post.data.title %}{{ post.data.title | safe }}{% else %}<code>{{ post.url }}</code>{% endif %}</a>
     <time datetime="{{ post.date | htmlDateString }}">{{ post.date | readableDate }}</time>
     {% for tag in post.data.tags %}
-      <a href="/blog/tags/{{ tag | slug }}" class="tag">{{ tag }}</a>
+      <a href="/posts/tags/{{ tag | slug }}" class="tag">{{ tag }}</a>
     {% endfor %}
   </li>
 {% endfor %}

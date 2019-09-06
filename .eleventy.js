@@ -25,6 +25,27 @@ module.exports = function(eleventyConfig) {
                      .sort((a, b) => b.date - a.date);
   });
 
+  eleventyConfig.addFilter('filterPosts', (array) => {
+    return array.filter(post =>
+                        post.inputPath.startsWith('./src/posts/'));
+  });
+
+  eleventyConfig.addCollection('tagList', (collection) => {
+    const set = new Set();
+    for (const item of collection.getAllSorted()) {
+      if ('tags' in item.data) {
+        const tags = item.data.tags;
+        if (typeof tags === 'string') {
+          tags = [tags];
+        }
+        for (const tag of tags) {
+          set.add(tag);
+        }
+      }
+    }
+    return [...set].sort();
+  });
+
   // Get the first `n` elements of a collection.
   eleventyConfig.addFilter('head', (array, n) => {
     if (n < 0) {
